@@ -4,7 +4,7 @@ from random import randint
 
 ##cores:  vermelho = 1, verde = 2, azul = 3, amarelo = 4, rosa = 5, azul-ciano = 6, marrom = 7, roxo = 8
 
-def dificuldade(n):
+def defineDiff(n):
     global numPedras, numCores, limitJogadas, tentativa = []
 
     if (n == 1):
@@ -25,7 +25,7 @@ def geraSenha():
     global senha
     senha = []
     for _ in numPedras:
-        senha.append(random.randint(1, 8))
+        senha.append(random.randint(1, numCores))
 
 
 def checaResposta()
@@ -36,6 +36,8 @@ def checaResposta()
 
     for i in senha:
         if senha[i] == tentativa[i]:
+            if(tentativa[i] in listaAux):
+                dicas.remove(False)
             dicas.append(True)
             listaAux.append(tentativa[i])
         elif tentativa[i] in senha and tentativa[i] not in listaAux:
