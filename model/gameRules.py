@@ -5,20 +5,25 @@ from random import randint
 ##cores:  vermelho = 1, verde = 2, azul = 3, amarelo = 4, rosa = 5, azul-ciano = 6, marrom = 7, roxo = 8
 
 def defineDiff(n):
-    global numPedras, numCores, limitJogadas, tentativa = []
+    global numPedras, numCores, limitJogadas, tentativa 
+    tentativa = []
 
     if (n == 1):
         numPedras = 4
         numCores = 6
         limitJogadas = 8
+        print("a")
     elif (n == 2):
         numPedras = 5
         numCores = 7
         limitJogadas = 10
+        print("b")
     else:
         numPedras = 6
         numCores = 8
         limitJogadas = 12
+        print("c")
+    
 
 
 def geraSenha():
@@ -28,7 +33,7 @@ def geraSenha():
         senha.append(random.randint(1, numCores))
 
 
-def checaResposta()
+def checaResposta():
     global dicas
 
     dicas = []
