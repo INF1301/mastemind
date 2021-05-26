@@ -20,26 +20,22 @@ def escolheDif (esc,cnv,top):
  
 def clickEvent(event, cnv):
     cId = event.widget.find_closest(event.x, event.y)
-    s = 4
-    init = (numCores + 1 + s)
 
-    corSelecionada = cnv.gettags(51)
+    init = 2*numCores
+
+    corSelecionada = cnv.gettags(numCores+1)
     print(corSelecionada[0])
 
     print(cId[0])
     if(cId[0] > 0 and cId[0] <= numCores):
-        cnv.dtag(51, corSelecionada[0])
-        cnv.addtag_withtag(retCor(cId[0]), 51)
+        cnv.dtag(numCores+1, corSelecionada[0])
+        cnv.addtag_withtag(retCor(cId[0]), numCores+1)
         return
-
-    if (numCores == 7):
-        init += 2
-    elif (numCores == 8):
-        init += 4
-
+       
     if cId[0] >= init and cId[0] <= init + numCores - 3:
         cnv.itemconfigure(cId[0], fill = corSelecionada[0])
     return 
+   
    
 def retCor(cor):
     if cor == 1:

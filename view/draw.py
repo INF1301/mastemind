@@ -38,7 +38,7 @@ def desenhaSenha(senha):
     ly=y0
     xL = 700
     yL=100
-    
+    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray",)
     for i in senha:
         
         poscor=eventHandler.retCor(i)
@@ -52,6 +52,7 @@ def palheta(numCores):
         corAtual = eventHandler.retCor(palhetaCores[cor])
         tela.create_oval(xCores, yCores, xCores + 40, yCores + 40, fill=corAtual)
         xCores += 54
+    
 
     
 def desenhaProgresso(tabSlots):
@@ -70,5 +71,5 @@ def desenhaProgresso(tabSlots):
         tela.create_line(xL, yL, xL + 500, yL, width = 2)
         yL += 45
         ly += 45
-    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray", state = 'hidden')
+    
 
