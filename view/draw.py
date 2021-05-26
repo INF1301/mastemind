@@ -16,7 +16,7 @@ def drawTelaInit(cnv,t,tx,ty):
 
     titulo.configure( font='Arial 50 bold',background='green')
     novoJogo=tk.Label(t,text='Novo jogo',font='Calibre 30 bold', bg="purple");novoJogo.place(x=400,y=150)
-    bJogoSalvo=tk.Button(t,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,state="active");bJogoSalvo.place(x=90,y=400)
+    bJogoSalvo=tk.Button(t,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,state="disabled");bJogoSalvo.place(x=90,y=400)
     bFacil=tk.Button(cnv,text='Facil',font='Arial 10 bold',height = 4, width = 30 , border=5, command=lambda:eventHandler.escolheDif(1,cnv,t));bFacil.place(x=90,y=ty/4)
     bMedio=tk.Button(cnv,text='Medio',font='Arial 10 bold',height = 4, width = 30 , border=5,command=lambda:eventHandler.escolheDif(2,cnv,t));bMedio.place(x=370,y=ty/4)
     bDificil=tk.Button(cnv,text='Dificil',font='Arial 10 bold',height = 4, width = 30, border=5, command=lambda:eventHandler.escolheDif(3,cnv,t));bDificil.place(x=650,y=ty/4)
@@ -31,15 +31,16 @@ def limpaTelaInit(cnv,top):
     novoJogo.destroy()
     bJogoSalvo.destroy()
     tela=cnv
+
     
     
 def desenhaSenha(senha):
     ly=y0
     xL = 700
     yL=100
-    print(senha)
+    
     for i in senha:
-        print(i)
+        
         poscor=eventHandler.retCor(i)
         tela.create_oval(xL,yL,xL+40,yL+40,fill=poscor)
         xL+=50
@@ -69,4 +70,5 @@ def desenhaProgresso(tabSlots):
         tela.create_line(xL, yL, xL + 500, yL, width = 2)
         yL += 45
         ly += 45
+    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray", state = 'hidden')
 
