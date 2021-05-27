@@ -31,14 +31,13 @@ def limpaTelaInit(cnv,top):
     novoJogo.destroy()
     bJogoSalvo.destroy()
     tela=cnv
-
-    
+ 
     
 def desenhaSenha(senha):
     ly=y0
     xL = 700
     yL=100
-    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray",)
+    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray",state="hidden")
     for i in senha:
         
         poscor=eventHandler.retCor(i)

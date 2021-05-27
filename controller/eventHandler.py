@@ -12,17 +12,20 @@ def escolheDif (esc,cnv,top):
     draw.palheta(numCores)
     
     senha=gameRules.geraSenha()
-    draw.desenhaSenha(senha)
+    draw.desenhaSenha(senha)##esconder senha
     tab=gameRules.jogadasTab()
-    draw.desenhaProgresso(tab)
-   
-    ntentativas=1
- 
+    draw.desenhaProgresso(tab)  
+    bCheck=tk.Button(cnv,text='Check',font='Arial 10 bold',height = 4, width = 10, border=5,command=lambda:checkButton());bCheck.place(x=650,y=500)
+    ##melhorar botão
+    ntentativas=0
+
 def clickEvent(event, cnv):
     cId = event.widget.find_closest(event.x, event.y)
-
-    init = 2*numCores
-
+    ##resolver proximidade click
+    
+    init = numCores*2#+ntentativas+1   (lembrar da linha)
+    ##inserir cor em tentativa
+    
     corSelecionada = cnv.gettags(numCores+1)
     print(corSelecionada[0])
 
@@ -35,7 +38,18 @@ def clickEvent(event, cnv):
     if cId[0] >= init and cId[0] <= init + numCores - 3:
         cnv.itemconfigure(cId[0], fill = corSelecionada[0])
     return 
-   
+ 
+##def checkButton(ntentativas?):
+    ##ntentativas+=1
+    ##gameRules.checaResposta()
+    ##inserir em tabslots(em checaResposta?)
+    ##draw tentativa
+    
+    ##tabela dicas
+    
+##def drawDica(tab) draw
+
+##def limpaTentativa() #ESC
    
 def retCor(cor):
     if cor == 1:

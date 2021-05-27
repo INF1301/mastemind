@@ -8,7 +8,7 @@ from view import draw
 
 def defineDiff(n):
     global numPedras, numCores, limitJogadas, tentativa 
-    tentativa = []##
+    tentativa = []##tirar
 
     if (n == 1):
         numPedras = 4
