@@ -38,7 +38,7 @@ def clickEvent(event, cnv):
     if cId[0] >= init and cId[0] <= init + numCores - 3:
         cnv.itemconfigure(cId[0], fill = corSelecionada[0])
     return 
- 
+##Botão voltar para tela inicial?
 ##def checkButton(ntentativas?):
     ##ntentativas+=1
     ##gameRules.checaResposta()
