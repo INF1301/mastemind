@@ -4,26 +4,27 @@ import tkinter as tk
 from functools import partial
 
 x0 = 250
-y0 = 30
+y0 = 510
 
 palhetaCores = [1, 2, 3, 4, 5, 6, 7, 8]
 
 def drawTelaInit(cnv,t,tx,ty):
-    global titulo,novoJogo,bJogoSalvo,bFacil,bMedio,bDificil
+    global titulo,novoJogo,bJogoSalvo,bFacil,bMedio,bDificil,state1
    
-    titulo = tk.Label (t, text='Master Mind')
+    titulo = tk.Label (cnv, text='Master Mind')
     titulo.place (x=300,y=10)
 
     titulo.configure( font='Arial 50 bold',background='green')
-    novoJogo=tk.Label(t,text='Novo jogo',font='Calibre 30 bold', bg="purple");novoJogo.place(x=400,y=150)
-    bJogoSalvo=tk.Button(t,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,state="disabled");bJogoSalvo.place(x=90,y=400)
+    novoJogo=tk.Label(cnv,text='Novo jogo',font='Calibre 30 bold', bg="purple");novoJogo.place(x=400,y=150)
+    bJogoSalvo=tk.Button(cnv,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,state="disabled");bJogoSalvo.place(x=90,y=400)
     bFacil=tk.Button(cnv,text='Facil',font='Arial 10 bold',height = 4, width = 30 , border=5, command=lambda:eventHandler.escolheDif(1,cnv,t));bFacil.place(x=90,y=ty/4)
     bMedio=tk.Button(cnv,text='Medio',font='Arial 10 bold',height = 4, width = 30 , border=5,command=lambda:eventHandler.escolheDif(2,cnv,t));bMedio.place(x=370,y=ty/4)
     bDificil=tk.Button(cnv,text='Dificil',font='Arial 10 bold',height = 4, width = 30, border=5, command=lambda:eventHandler.escolheDif(3,cnv,t));bDificil.place(x=650,y=ty/4)
+    state1="Menu"
     
  
 def limpaTelaInit(cnv,top):
-    global tela
+    global tela, state1
     bFacil.destroy()
     bMedio.destroy()
     bDificil.destroy()
@@ -31,7 +32,11 @@ def limpaTelaInit(cnv,top):
     novoJogo.destroy()
     bJogoSalvo.destroy()
     tela=cnv
- 
+    state1="Jogo"
+
+def statecheck ():
+    #print(state1)
+    return state1
     
 def desenhaSenha(senha):
     ly=y0
@@ -54,10 +59,14 @@ def palheta(numCores):
     
 
     
-def desenhaProgresso(tabSlots):
+def desenhaProgresso(tabSlots,cnv):
+    checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,state="disabled");checaTentativa.place(x=785,y=350)
+    #ly=y0
+    #xL = 200
     ly=y0
     xL = 200
     yL = ly + 37.5
+    #yL = ly + 37.5
     for linha in tabSlots:
         xAux = x0
         for slot in linha:
@@ -68,7 +77,7 @@ def desenhaProgresso(tabSlots):
                 tela.create_oval(x0, ly, x0 + 50, ly + 50, fill=cor)
             xAux += 55
         tela.create_line(xL, yL, xL + 500, yL, width = 2)
-        yL += 45
-        ly += 45
+        yL -= 45
+        ly -= 45
     
 
