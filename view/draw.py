@@ -42,7 +42,7 @@ def desenhaSenha(senha):
     ly=y0
     xL = 700
     yL=100
-    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray",state="hidden")
+    
     for i in senha:
         
         poscor=eventHandler.retCor(i)
@@ -50,17 +50,18 @@ def desenhaSenha(senha):
         xL+=50
  
 def palheta(numCores):
+    
     xCores = x0 - 5
     yCores = 600
     for cor in range(numCores):
         corAtual = eventHandler.retCor(palhetaCores[cor])
         tela.create_oval(xCores, yCores, xCores + 40, yCores + 40, fill=corAtual)
         xCores += 54
+    tela.create_oval(30, 400, 60, 430, fill="yellow", tag="gray",state="hidden")
     
-
     
 def desenhaProgresso(tabSlots,cnv):
-    checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,state="disabled");checaTentativa.place(x=785,y=350)
+    eventHandler.drawProsseguir(False,0,cnv)
     #ly=y0
     #xL = 200
     ly=y0
@@ -79,5 +80,23 @@ def desenhaProgresso(tabSlots,cnv):
         tela.create_line(xL, yL, xL + 500, yL, width = 2)
         yL -= 45
         ly -= 45
+    
+def desenhaPinos(dicas,cnv,ntent):
+    x = 590
+    ly= 510-ntent*45
+    count=0
+    for i in dicas:
+        if (count==3):
+            ly+=20
+            x=590
+        if(i == True):
+            cor="black"
+        if (i == False):
+           cor="white"
+        
+        tela.create_oval(x, ly, x + 10,ly+10, fill=cor)
+        count+=1
+        x+=25
+    return
     
 

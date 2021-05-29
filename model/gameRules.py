@@ -7,8 +7,7 @@ from view import draw
 ##cores:  vermelho = 1, verde = 2, azul = 3, amarelo = 4, rosa = 5, azul-ciano = 6, marrom = 7, roxo = 8
 
 def defineDiff(n):
-    global numPedras, numCores, limitJogadas, tentativa 
-    tentativa = []##
+    global numPedras, numCores, limitJogadas
 
     if (n == 1):
         numPedras = 4
@@ -39,19 +38,20 @@ def jogadasTab():
 
 
 def geraSenha():
+    global senha
     senha = []
     for _ in range(numPedras):
         senha.append(random.randint(1, numCores))
     return senha
 
 
-def checaResposta():
+def checaResposta(tentativa):
     dicas = []
     listaAux = []
-
-    for i in senha:
+    print("senha",senha)
+    for i in range(len(senha)):
         if senha[i] == tentativa[i]:
-            if(tentativa[i] in listaAux):
+            if(tentativa[i] in listaAux and False in dicas):
                 dicas.remove(False)
             dicas.append(True)
             listaAux.append(tentativa[i])
@@ -62,3 +62,5 @@ def checaResposta():
     return dicas
 
 
+
+   
