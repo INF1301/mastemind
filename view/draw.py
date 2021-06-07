@@ -8,23 +8,27 @@ y0 = 510
 
 palhetaCores = [1, 2, 3, 4, 5, 6, 7, 8]
 
+
+
 def drawTelaInit(cnv,t,tx,ty):
-    global titulo,novoJogo,bJogoSalvo,bFacil,bMedio,bDificil,state1
+    global titulo,novoJogo,bJogoSalvo,bFacil,bMedio,bDificil
    
     titulo = tk.Label (cnv, text='Master Mind')
     titulo.place (x=300,y=10)
 
     titulo.configure( font='Arial 50 bold',background='green')
     novoJogo=tk.Label(cnv,text='Novo jogo',font='Calibre 30 bold', bg="purple");novoJogo.place(x=400,y=150)
-    bJogoSalvo=tk.Button(cnv,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,state="disabled");bJogoSalvo.place(x=90,y=400)
+    bJogoSalvo=tk.Button(cnv,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,state="disabled");
+    bJogoSalvo.place(x=90,y=400)
     bFacil=tk.Button(cnv,text='Facil',font='Arial 10 bold',height = 4, width = 30 , border=5, command=lambda:eventHandler.escolheDif(1,cnv,t));bFacil.place(x=90,y=ty/4)
     bMedio=tk.Button(cnv,text='Medio',font='Arial 10 bold',height = 4, width = 30 , border=5,command=lambda:eventHandler.escolheDif(2,cnv,t));bMedio.place(x=370,y=ty/4)
     bDificil=tk.Button(cnv,text='Dificil',font='Arial 10 bold',height = 4, width = 30, border=5, command=lambda:eventHandler.escolheDif(3,cnv,t));bDificil.place(x=650,y=ty/4)
-    state1="Menu"
+    eventHandler.changeState("Menu")
+    
     
  
 def limpaTelaInit(cnv,top):
-    global tela, state1
+    global tela
     bFacil.destroy()
     bMedio.destroy()
     bDificil.destroy()
@@ -32,21 +36,20 @@ def limpaTelaInit(cnv,top):
     novoJogo.destroy()
     bJogoSalvo.destroy()
     tela=cnv
-    state1="Jogo"
+    eventHandler.changeState("Jogo")
 
-def statecheck ():
-    #print(state1)
-    return state1
+
+def desenhaSenha(senha,popup):
     
-def desenhaSenha(senha):
-    ly=y0
     xL = 700
     yL=100
-    
+    msg= tk.Label (tela, text='Senha',font='Arial 15 bold',background='green')
+    msg.place (x=xL+120,y=yL-40)
+
     for i in senha:
-        
         poscor=eventHandler.retCor(i)
         tela.create_oval(xL,yL,xL+40,yL+40,fill=poscor)
+        
         xL+=50
  
 def palheta(numCores):
@@ -97,6 +100,7 @@ def desenhaPinos(dicas,cnv,ntent):
         tela.create_oval(x, ly, x + 10,ly+10, fill=cor)
         count+=1
         x+=25
+
     return
     
 

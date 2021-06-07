@@ -1,10 +1,11 @@
 from model import gameRules
 from view import draw
 import tkinter as tk
+from tkinter import messagebox 
 
 
 def escolheDif (esc,cnv,top):    
-    global ntentativas,numCores,corSelecionada,tentativas
+    global ntentativas,numCores,corSelecionada,tentativas,senha
     
     numCores=gameRules.defineDiff(esc)
 
@@ -14,6 +15,7 @@ def escolheDif (esc,cnv,top):
     
     
     draw.limpaTelaInit(cnv,top)
+
     draw.palheta(numCores)
     
     senha=gameRules.geraSenha()
@@ -26,12 +28,21 @@ def escolheDif (esc,cnv,top):
 def drawProsseguir(existe,tentativa,cnv):
     global checaTentativa
     if (existe==False):
-        checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,command=lambda:mostraDicas(tentativas,cnv),state="disabled");checaTentativa.place(x=785,y=350)
+        checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,command=lambda:mostraDicas(tentativas,cnv),state="disabled")
+        checaTentativa.place(x=785,y=350)
     elif (existe==True):
         if(0 not in tentativa):
-            checaTentativa.configure(state= "normal")
-        else:
-            checaTentativa.configure(state= "disabled")  
+            checaTentativa.configure(state= "normal") 
+
+
+def checkState():
+    global state
+    return state
+
+
+def changeState(string):
+    global state
+    state=string
 
 
 def mostraDicas(tentativas,cnv):
@@ -39,15 +50,51 @@ def mostraDicas(tentativas,cnv):
     dicas=[]
     dicas=gameRules.checaResposta(tentativas)
     draw.desenhaPinos(dicas,cnv,ntentativas)
-    ntentativas+=1
     checaTentativa.configure(state= "disabled")
-    
+
+    if (False not in dicas and len(dicas)==4):
+        popup_window("vitoria")
+        changeState("Fim")
+        return
+
+    ntentativas+=1
+    popup_window("derrota")
+    if (ntentativas==(numCores-2)*2):
+        popup_window("derrota")
+        changeState("Fim")
+        return
+
     for k in range(numCores-2):
         tentativas[k]=0
-  
+ 
+
+
+def popup_window(estado):
+    global senha
+    window = tk.Toplevel()
+     
+    draw.desenhaSenha(senha,window)
+    if (estado=="vitoria"):
+        msg="Parabéns, você ganhou!"
+    elif (estado=="derrota"):
+        msg="Parabéns, você perdeu!"
+    
+
+    label = tk.Label(window, text=msg,font='Calibre 10 bold')
+
+    label.pack(fill='none', padx=50, pady=50,side="top")
+
+    button_close = tk.Button(window, text="Encerrar jogo", command=quit)
+
+    button_novoJogo = tk.Button(window, text="Jogar novamente", command=lambda:drawTelaInit())
+
+    button_close.pack(fill='x')
+    button_novoJogo.pack(fill='x')
+
+ 
 def clickEvent(event, cnv):
     global ntentativas
-    if draw.statecheck()=="Menu":
+    if (checkState()!="Jogo"):
         return
     cId = event.widget.find_closest(event.x, event.y)
     print("-",ntentativas)
@@ -77,7 +124,7 @@ def clickEvent(event, cnv):
 
 def keyEvent(event, cnv):
 
-    if len(event.char)==1 and  ord(event.char)==27 and draw.statecheck()=="Jogo":
+    if len(event.char)==1 and  ord(event.char)==27 and checkState()=="Jogo":
         for i in range(1,numCores+1):
             if cnv.itemcget(i,"outline")=="gold":
                cnv.itemconfigure(i, outline = "black") 
