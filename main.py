@@ -3,6 +3,7 @@ from controller import eventHandler
 from model import gameRules
 import tkinter as tk
 
+
 # Criação da janela principal
 
 top = tk.Tk()

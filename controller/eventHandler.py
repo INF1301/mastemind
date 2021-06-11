@@ -5,7 +5,7 @@ from tkinter import messagebox
 
 
 def escolheDif (esc,cnv,top):    
-    global ntentativas,numCores,corSelecionada,tentativas,senha
+    global ntentativas,numCores,corSelecionada,tentativas,senha,tabuleiro
     
     numCores=gameRules.defineDiff(esc)
 
@@ -20,16 +20,18 @@ def escolheDif (esc,cnv,top):
     
     senha=gameRules.geraSenha()
     
-    tab=gameRules.jogadasTab()
-    draw.desenhaProgresso(tab,cnv)
+    tabuleiro=gameRules.jogadasTab()
+    draw.desenhaProgresso(tabuleiro,cnv)
    
     ntentativas=0
     
 def drawProsseguir(existe,tentativa,cnv):
-    global checaTentativa
+    global checaTentativa, senha, tabuleiro, ntentativas
     if (existe==False):
         checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,command=lambda:mostraDicas(tentativas,cnv),state="disabled")
-        checaTentativa.place(x=785,y=350)
+        checaTentativa.place(x=785,y=450)
+        salvarJogo= tk.Button(cnv, text='Salvar Partida',font='Arial 10 bold',height = 4, width = 15, border=5, command= lambda: gameRules.salvaJogo(senha,tabuleiro,ntentativas))
+        salvarJogo.place(x=785,y=350)
     elif (existe==True):
         if(0 not in tentativa):
             checaTentativa.configure(state= "normal") 
@@ -44,6 +46,10 @@ def changeState(string):
     global state
     state=string
 
+def tabSave():
+    global tabuleiro, ntentativas, tentativas
+    tabuleiro[ntentativas]=tentativas.copy()
+
 
 def mostraDicas(tentativas,cnv):
     global ntentativas, checaTentativa
@@ -57,8 +63,10 @@ def mostraDicas(tentativas,cnv):
         changeState("Fim")
         return
 
+    tabSave()
+
     ntentativas+=1
-    popup_window("derrota")
+    
     if (ntentativas==(numCores-2)*2):
         popup_window("derrota")
         changeState("Fim")
@@ -86,10 +94,10 @@ def popup_window(estado):
 
     button_close = tk.Button(window, text="Encerrar jogo", command=quit)
 
-    button_novoJogo = tk.Button(window, text="Jogar novamente", command=lambda:drawTelaInit())
+    # button_novoJogo = tk.Button(window, text="Jogar novamente", command=lambda:drawTelaInit())
 
     button_close.pack(fill='x')
-    button_novoJogo.pack(fill='x')
+    # button_novoJogo.pack(fill='x')
 
  
 def clickEvent(event, cnv):
@@ -97,11 +105,11 @@ def clickEvent(event, cnv):
     if (checkState()!="Jogo"):
         return
     cId = event.widget.find_closest(event.x, event.y)
-    print("-",ntentativas)
+    print("-",ntentativas)#
     init = numCores+2 +ntentativas*(numCores-2+1)  #(numCores+2)*ntentativas
     
     corSelecionada = cnv.gettags(numCores+1)
-    print(corSelecionada[0])
+    print(corSelecionada[0])#
 
     print(cId[0])
     if(cId[0] > 0 and cId[0] <= numCores):
@@ -116,7 +124,7 @@ def clickEvent(event, cnv):
     if cId[0] >= init and cId[0] <= init + numCores - 3 and corSelecionada[0]!="gray":
         cnv.itemconfigure(cId[0], fill = corSelecionada[0])
         tentativas[cId[0]-init]=retCor(corSelecionada[0])
-        print(tentativas)
+        print(tentativas)#
         drawProsseguir(True,tentativas,cnv)
       
 
@@ -131,7 +139,17 @@ def keyEvent(event, cnv):
         cnv.dtag(numCores+1, cnv.gettags(numCores+1))
         cnv.addtag_withtag("gray", numCores+1)
     return
+    
+#def getcnv():
+    
 
+# def reiniciaJogo():
+# cnv=getcnv()
+# cnv.destroy()
+# cnv = tk.Canvas(top, bg="purple", height=tx, width=ty)
+# cnv.pack()
+
+# draw.drawTelaInit(cnv,top,tx,ty)
 
 def retCor(cor):
     if cor == 1:
