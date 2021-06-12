@@ -6,22 +6,19 @@ import tkinter as tk
 
 # Criação da janela principal
 
-top = tk.Tk()
-tx=700
-ty=1000
+# top = tk.Tk()
 
+draw.criaTopCnv(0)
+top=draw.criaTopCnv("t")
+cnv=draw.criaTopCnv("c")
 
 # Criação de um canvas na janela principal
 
-cnv = tk.Canvas(top, bg="purple", height=tx, width=ty)
+
 top.title('Master Mind')
 
 
-draw.drawTelaInit(cnv,top,tx,ty)
-
-
-cnv.bind('<Button-1>',lambda event: eventHandler.clickEvent(event,cnv))
-top.bind('<Key>',lambda event: eventHandler.keyEvent(event,cnv))
+draw.drawTelaInit()
 
 cnv.pack()
 

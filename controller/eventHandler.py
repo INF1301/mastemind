@@ -1,39 +1,44 @@
 from model import gameRules
 from view import draw
 import tkinter as tk
+from string import *
 from tkinter import messagebox 
 
 
-def escolheDif (esc,cnv,top):    
+def escolheDif (esc):    
     global ntentativas,numCores,corSelecionada,tentativas,senha,tabuleiro
-    
-    numCores=gameRules.defineDiff(esc)
+    cnv=draw.criaTopCnv("c")
+    top=draw.criaTopCnv("t")
 
+    numCores=gameRules.defineDiff(esc)
     tentativas=[]
+
     for i in range(0,numCores-2):
         tentativas.append(0)
-    
-    
-    draw.limpaTelaInit(cnv,top)
+    if(checkState()!="Salvo"):
+        print(checkState())
+        senha=gameRules.geraSenha()
+        tabuleiro=gameRules.jogadasTab()
+        ntentativas=0
 
+    draw.limpaTelaInit()
     draw.palheta(numCores)
-    
-    senha=gameRules.geraSenha()
-    
-    tabuleiro=gameRules.jogadasTab()
-    draw.desenhaProgresso(tabuleiro,cnv)
+    draw.desenhaProgresso(tabuleiro)
    
-    ntentativas=0
     
-def drawProsseguir(existe,tentativa,cnv):
-    global checaTentativa, senha, tabuleiro, ntentativas
+    
+def drawProsseguir(existe,tent):
+    global checaTentativa, senha, tabuleiro, ntentativas, salvarJogo
+    cnv=draw.criaTopCnv("c")
     if (existe==False):
-        checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,command=lambda:mostraDicas(tentativas,cnv),state="disabled")
+        checaTentativa=tk.Button(cnv,text='Prosseguir',font='Arial 10 bold',height = 4, width = 15, border=5,command=lambda:mostraDicas(tentativas),state="disabled")
         checaTentativa.place(x=785,y=450)
-        salvarJogo= tk.Button(cnv, text='Salvar Partida',font='Arial 10 bold',height = 4, width = 15, border=5, command= lambda: gameRules.salvaJogo(senha,tabuleiro,ntentativas))
+        salvarJogo= tk.Button(cnv, text='Salvar Partida',font='Arial 10 bold',height = 4, width = 15, border=5, command= lambda: salvaJogo())
         salvarJogo.place(x=785,y=350)
     elif (existe==True):
-        if(0 not in tentativa):
+        if(0 in tent):
+            pass
+        else:
             checaTentativa.configure(state= "normal") 
 
 
@@ -50,15 +55,21 @@ def tabSave():
     global tabuleiro, ntentativas, tentativas
     tabuleiro[ntentativas]=tentativas.copy()
 
+def getSenha():
+    global senha
+    return senha
 
-def mostraDicas(tentativas,cnv):
-    global ntentativas, checaTentativa
+
+def mostraDicas(tentativas):
+    global ntentativas, checaTentativa, salvarJogo
+    cnv=draw.criaTopCnv("c")
     dicas=[]
     dicas=gameRules.checaResposta(tentativas)
-    draw.desenhaPinos(dicas,cnv,ntentativas)
+    draw.desenhaPinos(dicas,ntentativas)
     checaTentativa.configure(state= "disabled")
 
     if (False not in dicas and len(dicas)==4):
+        salvarJogo.configure(state= "disabled") 
         popup_window("vitoria")
         changeState("Fim")
         return
@@ -68,12 +79,12 @@ def mostraDicas(tentativas,cnv):
     ntentativas+=1
     
     if (ntentativas==(numCores-2)*2):
+        salvarJogo.configure(state= "disabled") 
         popup_window("derrota")
         changeState("Fim")
         return
 
-    for k in range(numCores-2):
-        tentativas[k]=0
+    tentativas=[0 for x in tentativas]
  
 
 
@@ -94,14 +105,26 @@ def popup_window(estado):
 
     button_close = tk.Button(window, text="Encerrar jogo", command=quit)
 
-    # button_novoJogo = tk.Button(window, text="Jogar novamente", command=lambda:drawTelaInit())
-
+    button_novoJogo = tk.Button(window, text="Jogar novamente", command= lambda:[voltaMenu(),window.destroy()])
     button_close.pack(fill='x')
-    # button_novoJogo.pack(fill='x')
+    button_novoJogo.pack(fill='x')
+
+
+
+def voltaMenu():
+    global state,tabuleiro
+    cnv=draw.criaTopCnv("c")
+    top=draw.criaTopCnv("t")
+    cnv.destroy()
+    cnv=draw.criaTopCnv("nc")
+    tabuleiro=[0 for x in tabuleiro]
+    draw.drawTelaInit()
+
 
  
-def clickEvent(event, cnv):
+def clickEvent(event):
     global ntentativas
+    cnv=draw.criaTopCnv("c")
     if (checkState()!="Jogo"):
         return
     cId = event.widget.find_closest(event.x, event.y)
@@ -125,13 +148,12 @@ def clickEvent(event, cnv):
         cnv.itemconfigure(cId[0], fill = corSelecionada[0])
         tentativas[cId[0]-init]=retCor(corSelecionada[0])
         print(tentativas)#
-        drawProsseguir(True,tentativas,cnv)
-      
+        drawProsseguir(True,tentativas)
 
     return 
 
-def keyEvent(event, cnv):
-
+def keyEvent(event):
+    cnv=draw.criaTopCnv("c")
     if len(event.char)==1 and  ord(event.char)==27 and checkState()=="Jogo":
         for i in range(1,numCores+1):
             if cnv.itemcget(i,"outline")=="gold":
@@ -139,17 +161,61 @@ def keyEvent(event, cnv):
         cnv.dtag(numCores+1, cnv.gettags(numCores+1))
         cnv.addtag_withtag("gray", numCores+1)
     return
-    
-#def getcnv():
-    
 
-# def reiniciaJogo():
-# cnv=getcnv()
-# cnv.destroy()
-# cnv = tk.Canvas(top, bg="purple", height=tx, width=ty)
-# cnv.pack()
+def salvaJogo():
+    global senha, ntentativas, tabuleiro
 
-# draw.drawTelaInit(cnv,top,tx,ty)
+    jogoSalvo= open("save.txt","w")
+    jogoSalvo.write(str(ntentativas)+"\n")
+
+    for i in senha:
+        jogoSalvo.write(str(i))
+        jogoSalvo.write(" ")
+    jogoSalvo.write("\n")
+
+    for tent in tabuleiro:
+
+        for slot in tent:
+            jogoSalvo.write(str(slot))
+            jogoSalvo.write(" ")
+        jogoSalvo.write("\n")
+    messagebox.showinfo(message="O jogo foi salvo!")
+    jogoSalvo.close()
+    
+def carregaJogo():
+    global senha,tabuleiro,ntentativas
+    jogoSalvo=open("save.txt","r")
+    ntentativas=int(jogoSalvo.readline())
+    senha=jogoSalvo.readline().strip().split(" ")
+
+    for i in range(len(senha)):
+        senha[i]=int(senha[i])
+
+    tabuleiro=[[] for x in range(2*len(senha))]
+    pinos=[]
+
+    count=0
+    for linha in jogoSalvo:
+        aux=linha.strip().split(" ")
+        for j in range(len(aux)):
+            aux[j]=int(aux[i])
+        tabuleiro[count]=aux.copy()
+        pinosAux=gameRules.checaResposta(aux)
+        pinos.append(pinosAux)
+        count+=1
+    
+    changeState("Salvo")
+
+    escolheDif(len(senha)-3)
+    count=0
+   
+    for dicas in pinos:
+        draw.desenhaPinos(dicas,count)
+        count+=1
+
+    jogoSalvo.close()
+
+
 
 def retCor(cor):
     if cor == 1:

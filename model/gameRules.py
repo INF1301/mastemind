@@ -1,9 +1,10 @@
 __all__ = ['dificuldade', 'geraSenha', 'checaResposta']
 
-#from random import randint#
 import random
 from view import draw 
 from tkinter import messagebox
+from controller import eventHandler
+
 ##cores:  vermelho = 1, verde = 2, azul = 3, amarelo = 4, rosa = 5, azul-ciano = 6, marrom = 7, roxo = 8
 
 def defineDiff(n):
@@ -46,9 +47,9 @@ def geraSenha():
 
 
 def checaResposta(tentativa):
+    senha=eventHandler.getSenha()
     dicas = []
     listaAux = []
-    print("senha",senha)
     for i in range(len(senha)):
         if senha[i] == tentativa[i]:
             if(tentativa[i] in listaAux and False in dicas):
@@ -60,29 +61,6 @@ def checaResposta(tentativa):
             listaAux.append(tentativa[i])
             
     return dicas
-
-
-
-
-def salvaJogo(senha,tabuleiro,ntentativas):
-    
-    jogoSalvo= open("save.txt","w")
-    for i in senha:
-        jogoSalvo.write(str(i))
-        jogoSalvo.write(" ")
-    jogoSalvo.write("\n")
-
-    for tentativa in tabuleiro:
-
-        for slot in tentativa:
-            jogoSalvo.write(str(slot))
-            jogoSalvo.write(" ")
-        jogoSalvo.write("\n")
-    messagebox.Message(messagem="salvou",title="outra string")
-   
-
-
- 
 
 
 
