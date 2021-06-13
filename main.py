@@ -14,9 +14,7 @@ cnv=draw.criaTopCnv("c")
 
 # Criação de um canvas na janela principal
 
-
 top.title('Master Mind')
-
 
 draw.drawTelaInit()
 

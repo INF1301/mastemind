@@ -1,7 +1,5 @@
 Mastermind
 ###
-*Corrigir carregamento de jogo
 *Corrigir Botão progredir
 *Papelada
 *Passar pente fino
-*

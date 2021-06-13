@@ -13,7 +13,7 @@ ty=1000
 
 palhetaCores=[1, 2, 3, 4, 5, 6, 7, 8]
 
-def criaTopCnv(string):
+def criaTopCnv(string):# Cria, retorna ou modifica o Canvas ou Top
     global top,cnv, tx, ty
     if(string=="t"):
         return top
@@ -33,14 +33,14 @@ def criaTopCnv(string):
 
 
 def drawTelaInit():
-    global titulo,novoJogo,bJogoSalvo,bFacil,bMedio,bDificil,tx,ty,cnv,top
+    global titulo, novoJogo, bJogoSalvo, bFacil, bMedio, bDificil, tx, ty, cnv, top
     
     titulo = tk.Label (cnv, text='Master Mind')
     titulo.place (x=300,y=10)
 
     titulo.configure( font='Arial 50 bold',background='green')
     novoJogo=tk.Label(cnv,text='Novo jogo',font='Calibre 30 bold', bg="purple");novoJogo.place(x=400,y=150)
-    bJogoSalvo=tk.Button(cnv,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,command=eventHandler.carregaJogo);
+    bJogoSalvo=tk.Button(cnv,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,command=lambda: eventHandler.carregaJogo());
     bJogoSalvo.place(x=90,y=400)
     bFacil=tk.Button(cnv,text='Facil',font='Arial 10 bold',height = 4, width = 30 , border=5, command=lambda:eventHandler.escolheDif(1));bFacil.place(x=90,y=ty/4)
     bMedio=tk.Button(cnv,text='Medio',font='Arial 10 bold',height = 4, width = 30 , border=5,command=lambda:eventHandler.escolheDif(2));bMedio.place(x=370,y=ty/4) 

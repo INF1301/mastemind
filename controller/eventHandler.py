@@ -36,16 +36,14 @@ def drawProsseguir(existe,tent):
         salvarJogo= tk.Button(cnv, text='Salvar Partida',font='Arial 10 bold',height = 4, width = 15, border=5, command= lambda: salvaJogo())
         salvarJogo.place(x=785,y=350)
     elif (existe==True):
-        if(0 in tent):
-            pass
-        else:
+        if(0 not in tent):
             checaTentativa.configure(state= "normal") 
+            
 
 
 def checkState():
     global state
     return state
-
 
 def changeState(string):
     global state
@@ -184,9 +182,9 @@ def salvaJogo():
     
 def carregaJogo():
     global senha,tabuleiro,ntentativas
-    jogoSalvo=open("save.txt","r")
-    ntentativas=int(jogoSalvo.readline())
-    senha=jogoSalvo.readline().strip().split(" ")
+    jogoSalvo= open("save.txt","r")
+    ntentativas= int(jogoSalvo.readline())
+    senha= jogoSalvo.readline().strip().split(" ")
 
     for i in range(len(senha)):
         senha[i]=int(senha[i])
@@ -198,7 +196,7 @@ def carregaJogo():
     for linha in jogoSalvo:
         aux=linha.strip().split(" ")
         for j in range(len(aux)):
-            aux[j]=int(aux[i])
+            aux[j]=int(aux[j])
         tabuleiro[count]=aux.copy()
         pinosAux=gameRules.checaResposta(aux)
         pinos.append(pinosAux)
@@ -251,6 +249,3 @@ def retCor(cor):
     elif cor == "khaki3":
         return 8
 
-
-
-    
