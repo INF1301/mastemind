@@ -7,7 +7,7 @@ from controller import eventHandler
 
 ##cores:  vermelho = 1, verde = 2, azul = 3, amarelo = 4, rosa = 5, azul-ciano = 6, marrom = 7, roxo = 8
 
-def defineDiff(n):
+def defineDificuldade(n):
     global numPedras, numCores, limitJogadas
 
     if (n == 1):
@@ -27,7 +27,7 @@ def defineDiff(n):
        
     return numCores
     
-def jogadasTab():
+def tabuleiroVazio():
     tabSlots = []
 
     for tent in range(limitJogadas):
