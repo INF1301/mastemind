@@ -1,9 +1,14 @@
+__all__ = ['clickEvent','keyEvent','carregaJogo','comecaJogo','changeState','retCor','controleBotoesJogo','checkJogoSalvo']
+
 from model import gameRules
 from view import draw
 import tkinter as tk
 from string import *
 from tkinter import messagebox 
 
+# André C. de Andrade - 2012498
+# Laura M. da Glória Luz -2010709
+# Paulo de Tarso Fernandes - 2011077
 
 def comecaJogo(esc):  
     global numTentativaAtual, numCores, corSelecionada, tentativaAtual, senha, tabuleiro
@@ -182,6 +187,14 @@ def salvaJogo():
     messagebox.showinfo(message="O jogo foi salvo!")
     jogoSalvo.close()
     
+def checkJogoSalvo():
+    try:
+        jogoSalvo = open("save.txt")
+        jogoSalvo.close()
+        return True
+    except: 
+        return False
+
 def carregaJogo():
     global senha, tabuleiro, numTentativaAtual
 

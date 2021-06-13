@@ -1,7 +1,13 @@
+__all__ =['criaTopCnv','desenhaMenu','limpaMenu','desenhaPalheta','desenhaTabuleiro','desenhaPinos','desenhaSenha','desenhaMenu']
+
 from model import gameRules
 from controller import eventHandler
 import tkinter as tk
-from functools import partial
+
+# André C. de Andrade - 2012498
+# Laura M. da Glória Luz -2010709
+# Paulo de Tarso Fernandes - 2011077
+
 top = 0
 cnv = 0
 
@@ -48,6 +54,11 @@ def desenhaMenu():
     bJogoSalvo = tk.Button(cnv,text='Jogo Salvo ',font='Arial 10 bold',height = 4, width = 100, border=5,command=lambda: eventHandler.carregaJogo());
     bJogoSalvo.place(x=90, y=400)
 
+    if(eventHandler.checkJogoSalvo()):
+        bJogoSalvo.configure(state="normal")
+    else:
+        bJogoSalvo.configure(state="disabled")
+        
     bFacil = tk.Button(cnv,text='Facil',font='Arial 10 bold',height = 4, width = 30 , border=5, command=lambda:eventHandler.comecaJogo(1))
     bFacil.place(x=90, y=ty/4)
 

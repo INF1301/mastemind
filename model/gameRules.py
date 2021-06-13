@@ -1,9 +1,12 @@
-__all__ = ['dificuldade', 'geraSenha', 'checaResposta']
+__all__ = ['defineDificuldade','tabuleiroVazio', 'geraSenha', 'checaResposta']
 
 import random
-from view import draw 
 from tkinter import messagebox
 from controller import eventHandler
+
+# André C. de Andrade - 2012498
+# Laura M. da Glória Luz -2010709
+# Paulo de Tarso Fernandes - 2011077
 
 ##cores:  vermelho = 1, verde = 2, azul = 3, amarelo = 4, rosa = 5, azul-ciano = 6, marrom = 7, roxo = 8
 

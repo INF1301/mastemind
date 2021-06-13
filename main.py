@@ -1,8 +1,9 @@
 from view import draw
-from controller import eventHandler
-from model import gameRules
 import tkinter as tk
 
+# André C. de Andrade - 2012498
+# Laura M. da Glória Luz -2010709
+# Paulo de Tarso Fernandes - 2011077
 
 # Criação da janela principal
 
