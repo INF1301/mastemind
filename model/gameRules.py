@@ -47,9 +47,10 @@ def geraSenha():
 
 
 def checaResposta(tentativa):
-    senha=eventHandler.getSenha()
+    senha = eventHandler.getSenha()
     dicas = []
     listaAux = []
+    
     for i in range(len(senha)):
         if senha[i] == tentativa[i]:
             if(tentativa[i] in listaAux and False in dicas):

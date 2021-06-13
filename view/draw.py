@@ -93,7 +93,6 @@ def desenhaPalheta(numCores):
         corAtual = eventHandler.retCor(palhetaCores[cor])
         cnv.create_oval(xCores, yCores, xCores + 40, yCores + 40, fill=corAtual)
         xCores += 54
-    cnv.create_oval(30, 400, 60, 430, fill="yellow", tag="gray",state="hidden")
     
     
 def desenhaTabuleiro(tabSlots):
@@ -118,22 +117,22 @@ def desenhaTabuleiro(tabSlots):
         ly -= 45
     
 def desenhaPinos(dicas,ntent):
-    cnv=criaTopCnv("c")
+    cnv = criaTopCnv("c")
     x = 590
-    ly= 510-ntent*45
-    count=0
+    ly= 510 - ntent * 45
+    count = 0
     for i in dicas:
-        if (count==3):
-            ly+=20
-            x=590
+        if (count == 3):
+            ly += 20
+            x = 590
         if(i == True):
-            cor="black"
+            cor = "black"
         if (i == False):
            cor="white"
         
-        cnv.create_oval(x, ly, x + 10,ly+10, fill=cor)
-        count+=1
-        x+=25
+        cnv.create_oval(x, ly, x + 10, ly+10, fill=cor)
+        count += 1
+        x += 25
 
     return
     

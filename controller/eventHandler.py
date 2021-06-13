@@ -5,8 +5,10 @@ from string import *
 from tkinter import messagebox 
 
 
-def comecaJogo(esc):    
+def comecaJogo(esc):  
     global numTentativaAtual, numCores, corSelecionada, tentativaAtual, senha, tabuleiro
+
+    corSelecionada = "gray"
 
     cnv = draw.criaTopCnv("c")
     top = draw.criaTopCnv("t")
@@ -24,8 +26,7 @@ def comecaJogo(esc):
     draw.desenhaPalheta(numCores)
     draw.desenhaTabuleiro(tabuleiro)
    
-    
-    
+
 def controleBotoesJogo(existe, tent):
     global botaoProsseguir, botaoSalvarJogo, senha, tabuleiro, numTentativaAtual
 
@@ -49,7 +50,7 @@ def checkState():
 
 def changeState(string):
     global state
-    state=string
+    state = string
 
 def salvaTentativaAtual():
     global tabuleiro, numTentativaAtual, tentativaAtual
@@ -120,7 +121,7 @@ def voltaMenu():
     draw.desenhaMenu()
  
 def clickEvent(event):
-    global numTentativaAtual
+    global numTentativaAtual, corSelecionada
 
     cnv = draw.criaTopCnv("c")
 
@@ -129,23 +130,23 @@ def clickEvent(event):
 
     cId = event.widget.find_closest(event.x, event.y)
 
-    init = (numCores + 2) + numTentativaAtual * (numCores - 2 + 1)  #(numCores+2) * numTentativaAtual
-    
-    corSelecionada = cnv.gettags(numCores+1)
+    init = (numCores + 1) + (numTentativaAtual * (numCores - 2 + 1))  #(numCores+2) * numTentativaAtual
 
     if(cId[0] > 0 and cId[0] <= numCores): #
-        for i in range(1,numCores+1):
+        corSelecionada = cnv.itemcget(cId[0], "fill")
+
+        for i in range(1, numCores+1):
             if cnv.itemcget(i,"outline")=="gold":
                cnv.itemconfigure(i, outline = "black") 
         cnv.itemconfigure(cId[0], outline = "gold")
-        cnv.dtag(numCores+1, corSelecionada[0])
-        cnv.addtag_withtag(retCor(cId[0]), numCores+1)
+        cnv.dtag(numCores, corSelecionada)
+        cnv.addtag_withtag(retCor(cId[0]), numCores)
         return
        
     #Verifica se o id do objeto clicado esta na fileira correspondente a tentativa
-    if cId[0] >= init and cId[0] <= init + numCores - 3 and corSelecionada[0]!="gray":
-        cnv.itemconfigure(cId[0], fill = corSelecionada[0])
-        tentativaAtual[cId[0]-init] = retCor(corSelecionada[0])
+    if cId[0] >= init and cId[0] <= init + numCores - 3 and corSelecionada != "gray":
+        cnv.itemconfigure(cId[0], fill = corSelecionada)
+        tentativaAtual[cId[0]-init] = retCor(corSelecionada)
         controleBotoesJogo(True, tentativaAtual)
 
     return
@@ -165,7 +166,7 @@ def salvaJogo():
                                                             # padrao do arquivo
     jogoSalvo = open("save.txt","w")                        #1 numero da tentativa atual
     jogoSalvo.write(str(numTentativaAtual)+"\n")            #2 senha
-                                                            #... 1 fileira do tabuleiro pra cada linha
+                                                            #... uma linha pra cada fileira do tabuleiro
     for i in senha:
         jogoSalvo.write(str(i))
         jogoSalvo.write(" ")
